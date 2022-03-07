@@ -24,5 +24,18 @@ namespace BusinessLayer.Concrete
         {
             return _categoryDal.List();
         }
+
+        public void CategoryAddBL(Category p)
+        {
+            if (p.CategoryName == "" || p.CategoryStatus == false || p.CategoryName.Length <= 2)
+            {
+
+            }
+            else
+            {
+                _categoryDal.Insert(p);
+            }
+        }
+
     }
 }
