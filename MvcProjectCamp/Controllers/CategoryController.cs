@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLayer.Concrete;
+using EntityLayer.Concrete;
 
 namespace MvcProjectCamp.Controllers
 {
@@ -19,7 +20,15 @@ namespace MvcProjectCamp.Controllers
         public ActionResult GetCategoryList()
         {
             var categoryValues = cm.GetAllBL();
+
             return View(categoryValues);
+        }
+
+        public ActionResult AddCategory(Category category)
+        {
+            cm.CategoryAddBL(category);
+
+            return RedirectToAction("GetCategoryList");
         }
     }
 }
