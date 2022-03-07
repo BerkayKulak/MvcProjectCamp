@@ -24,6 +24,13 @@ namespace MvcProjectCamp.Controllers
             return View(categoryValues);
         }
 
+        [HttpGet]
+        public ActionResult AddCategory( )
+        {
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult AddCategory(Category category)
         {
             cm.CategoryAddBL(category);
