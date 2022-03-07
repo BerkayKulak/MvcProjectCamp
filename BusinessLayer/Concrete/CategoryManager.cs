@@ -20,7 +20,7 @@ namespace BusinessLayer.Concrete
             _categoryDal = categoryDal;
         }
 
-        public List<Category> GetCategoryList()
+        public List<Category> GetList()
         {
             return _categoryDal.List();
         }
