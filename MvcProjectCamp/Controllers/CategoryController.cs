@@ -19,9 +19,9 @@ namespace MvcProjectCamp.Controllers
 
         public ActionResult GetCategoryList()
         {
-            var categoryValues = cm.GetAllBL();
+           // var categoryValues = cm.GetAllBL();
 
-            return View(categoryValues);
+          //  return View(categoryValues);
         }
 
         [HttpGet]
@@ -33,7 +33,7 @@ namespace MvcProjectCamp.Controllers
         [HttpPost]
         public ActionResult AddCategory(Category category)
         {
-            cm.CategoryAddBL(category);
+           // cm.CategoryAddBL(category);
 
             return RedirectToAction("GetCategoryList");
         }
