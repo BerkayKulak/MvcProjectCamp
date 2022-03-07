@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.Abstract;
@@ -33,6 +34,11 @@ namespace DataAccessLayer.Concrete.Repositories
         {
             _object.Remove(p);
             c.SaveChanges();
+        }
+
+        public List<Category> List(Expression<Func<Category, bool>> filter)
+        {
+            throw new NotImplementedException();
         }
     }
 }
