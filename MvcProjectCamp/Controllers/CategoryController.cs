@@ -4,8 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLayer.Concrete;
+using BusinessLayer.ValidationRules;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
+using FluentValidation.Results;
 
 namespace MvcProjectCamp.Controllers
 {
@@ -20,13 +22,13 @@ namespace MvcProjectCamp.Controllers
 
         public ActionResult GetCategoryList()
         {
-           var categoryValues = cm.GetList();
+            var categoryValues = cm.GetList();
 
-          return View(categoryValues);
+            return View(categoryValues);
         }
 
         [HttpGet]
-        public ActionResult AddCategory( )
+        public ActionResult AddCategory()
         {
             return View();
         }
@@ -34,9 +36,26 @@ namespace MvcProjectCamp.Controllers
         [HttpPost]
         public ActionResult AddCategory(Category category)
         {
-           // cm.CategoryAddBL(category);
+            // cm.CategoryAddBL(category);
 
-            return RedirectToAction("GetCategoryList");
+            CategoryValidatior categoryValidatior = new CategoryValidatior();
+
+            ValidationResult results = categoryValidatior.Validate(category);
+
+            if (results.IsValid)
+            {
+                cm.CategoryAddBL(category);
+                return RedirectToAction("GetCategoryList");
+            }
+            else
+            {
+                foreach (var item in results.Errors)
+                {
+                    ModelState.AddModelError(item.PropertyName,item.ErrorMessage);
+                }
+            }
+
+            return View();
         }
     }
 }
