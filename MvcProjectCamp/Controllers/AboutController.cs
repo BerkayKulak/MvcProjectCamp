@@ -30,5 +30,10 @@ namespace MvcProjectCamp.Controllers
             abm.AboutAddBL(p);
             return RedirectToAction("Index");
         }
+
+        public PartialViewResult AboutPartial()
+        {
+            return PartialView();
+        }
     }
 }
