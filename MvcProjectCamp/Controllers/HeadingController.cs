@@ -11,10 +11,12 @@ namespace MvcProjectCamp.Controllers
 {
     public class HeadingController : Controller
     {
-        // GET: Heading
         private HeadingManager hm = new HeadingManager(new EfHeadingDal());
+
         CategoryManager cm = new CategoryManager(new EfCategoryDal());
+
         WriterManager wm = new WriterManager(new EfWriterDal());
+
         public ActionResult Index()
         {
             var headingValues = hm.GetList();
@@ -39,7 +41,9 @@ namespace MvcProjectCamp.Controllers
                 }).ToList();
 
             ViewBag.vlc = valueCategory;
+
             ViewBag.vlw = valueWriter;
+
             return View();
         }
 
@@ -47,13 +51,26 @@ namespace MvcProjectCamp.Controllers
         public ActionResult AddHeading(Heading p)
         {
             p.HeadingDate = DateTime.Parse( DateTime.Now.ToShortDateString());
+
             hm.HeadingAddBL(p);
+
             return RedirectToAction("Index");
         }
 
-        public ActionResult ContentByHeading()
+        public ActionResult EditHeading(int id)
         {
-            return View();
+            List<SelectListItem> valueCategory = (from x in cm.GetList()
+                select new SelectListItem
+                {
+                    Text = x.CategoryName,
+                    Value = x.CategoryId.ToString()
+                }).ToList();
+
+            ViewBag.vlc = valueCategory;
+
+            var HeadingValue = hm.GetById(id);
+            
+            return View(HeadingValue);
         }
     }
 }
