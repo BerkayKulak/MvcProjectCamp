@@ -14,6 +14,7 @@ namespace MvcProjectCamp.Controllers
         // GET: Heading
         private HeadingManager hm = new HeadingManager(new EfHeadingDal());
         CategoryManager cm = new CategoryManager(new EfCategoryDal());
+        WriterManager wm = new WriterManager(new EfWriterDal());
         public ActionResult Index()
         {
             var headingValues = hm.GetList();
@@ -30,8 +31,15 @@ namespace MvcProjectCamp.Controllers
                     Value = x.CategoryId.ToString()
                 }).ToList();
 
-            ViewBag.vlc = valueCategory;
+            List<SelectListItem> valueWriter = (from x in wm.GetList()
+                select new SelectListItem
+                {
+                    Text = x.WriterName + " " + x.WriterSurName,
+                    Value = x.WriterId.ToString()
+                }).ToList();
 
+            ViewBag.vlc = valueCategory;
+            ViewBag.vlw = valueWriter;
             return View();
         }
 
