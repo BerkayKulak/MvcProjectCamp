@@ -59,5 +59,14 @@ namespace MvcProjectCamp.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult EditCategory(int id)
+        {
+            var categoryValue = cm.GetById(id);
+
+            return View(categoryValue);
+
+        }
     }
 }
