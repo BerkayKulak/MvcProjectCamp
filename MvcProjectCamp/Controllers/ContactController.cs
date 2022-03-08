@@ -27,5 +27,11 @@ namespace MvcProjectCamp.Controllers
 
             return View(contactValues);
         }
+
+        public PartialViewResult MessageListMenu()
+        {
+            return PartialView();
+        }
+
     }
 }
