@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 
@@ -24,6 +25,8 @@ namespace MvcProjectCamp.Controllers
             var adminUserInfo = c.Admins.FirstOrDefault(x => x.AdminUserName == p.AdminUserName && x.AdminPassword == p.AdminPassword);
             if (adminUserInfo != null)
             {
+                FormsAuthentication.SetAuthCookie(adminUserInfo.AdminUserName,false);
+                Session["AdminUserName"] = adminUserInfo.AdminUserName;
                 return RedirectToAction("Index", "AdminCategory");
             }
             else
