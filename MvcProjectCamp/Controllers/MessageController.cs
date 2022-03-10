@@ -26,6 +26,14 @@ namespace MvcProjectCamp.Controllers
             return View(messageList);
         }
 
+
+        public ActionResult GetInBoxMessageDetails(int id)
+        {
+            var values = mm.GetById(id);
+
+            return View(values);
+        }
+
         [HttpGet]
         public ActionResult NewMessage()
         {
