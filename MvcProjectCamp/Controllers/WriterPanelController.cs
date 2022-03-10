@@ -104,5 +104,11 @@ namespace MvcProjectCamp.Controllers
             hm.HeadingDelete(HeadingValue);
             return RedirectToAction("MyHeading");
         }
+
+        public ActionResult AllHeading()
+        {
+            var heading = hm.GetList();
+            return View(heading);
+        }
     }
 }
