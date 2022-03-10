@@ -20,6 +20,8 @@ namespace MvcProjectCamp.Controllers
 
         Context c = new Context();
 
+
+
         public ActionResult WriterProfile()
         {
             return View();
@@ -49,14 +51,22 @@ namespace MvcProjectCamp.Controllers
                                                   }).ToList();
 
             ViewBag.vlc = valueCategory;
+
             return View();
         }
         [HttpPost]
         public ActionResult NewHeading(Heading p)
         {
+            string writerMailInfo = (string)Session["WriterMail"];
+
+            var writeridInfo = c.Writers.Where(x => x.WriterMail == writerMailInfo).Select(y => y.WriterId).FirstOrDefault();
+
             p.HeadingDate = DateTime.Parse(DateTime.Now.ToShortDateString());
+
             p.WriterId = writeridInfo;
+
             p.HeadingStatus = true;
+
             hm.HeadingAddBL(p);
 
             return RedirectToAction("MyHeading");
