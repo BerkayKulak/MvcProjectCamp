@@ -23,6 +23,8 @@ namespace BusinessLayer.Concrete
             return _headingDal.List();
         }
 
+
+
         public void HeadingAddBL(Heading heading)
         {
             _headingDal.Insert(heading);
@@ -41,6 +43,11 @@ namespace BusinessLayer.Concrete
         public void HeadingUpdate(Heading heading)
         {
             _headingDal.Update(heading);
+        }
+
+        public List<Heading> GetListByWriter(int id)
+        {
+            return _headingDal.List(x => x.WriterId == id);
         }
     }
 }
