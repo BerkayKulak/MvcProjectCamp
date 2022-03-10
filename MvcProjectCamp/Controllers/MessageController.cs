@@ -34,17 +34,26 @@ namespace MvcProjectCamp.Controllers
             return View(values);
         }
 
+        public ActionResult GetSendBoxMessageDetails(int id)
+        {
+            var values = mm.GetById(id);
+
+            return View(values);
+        }
+
         [HttpGet]
         public ActionResult NewMessage()
         {
+            
             return View();
         }
 
         [HttpPost]
         public ActionResult NewMessage(Message p)
         {
-
-            return View();
+            p.MessageDate = DateTime.Parse(DateTime.Now.ToShortDateString());
+            mm.MessageAddBL(p);
+            return RedirectToAction("Sendbox");
         }
     }
 }
