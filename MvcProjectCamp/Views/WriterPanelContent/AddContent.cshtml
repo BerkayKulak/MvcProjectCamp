@@ -1,8 +1,22 @@
-﻿
+﻿@model EntityLayer.Concrete.Content
 @{
     ViewBag.Title = "AddContent";
     Layout = "~/Views/Shared/_WriterLayout.cshtml";
 }
 
-<h2>AddContent</h2>
+<h2>İçerik Girişi</h2>
+<br />
+@using (Html.BeginForm("AddContent", "WriterPanelContent", FormMethod.Post))
+{
+    <div class="form-group">
+        <input type="text" name="HeadingId" value="@ViewBag.d"/>
+        <br/>
+        @Html.Label("İçerik Girin")
+        @Html.TextAreaFor(x => x.ContentValue, 4, 30, new {@class = "form-control"})
+        @Html.ValidationMessageFor(x => x.ContentValue)
+        <button class="btn btn-info">Kaydet</button>
+    </div>
+}
+
+
 
