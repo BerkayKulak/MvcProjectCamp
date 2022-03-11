@@ -11,6 +11,7 @@ using FluentValidation.Results;
 
 namespace MvcProjectCamp.Controllers
 {
+    [Authorize(Roles = "a")]
     public class WriterController : Controller
     {
         private WriterManager wm = new WriterManager(new EfWriterDal());
