@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
+using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 
 namespace MvcProjectCamp.Controllers
@@ -12,7 +14,8 @@ namespace MvcProjectCamp.Controllers
     [AllowAnonymous]
     public class LoginController : Controller
     {
-        // GET: Login
+        private WriterLoginManager _writerLoginManager = new WriterLoginManager(new EfWriterDal());
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -23,11 +26,15 @@ namespace MvcProjectCamp.Controllers
         public ActionResult Index(Admin p)
         {
             Context c = new Context();
+
             var adminUserInfo = c.Admins.FirstOrDefault(x => x.AdminUserName == p.AdminUserName && x.AdminPassword == p.AdminPassword);
+
             if (adminUserInfo != null)
             {
                 FormsAuthentication.SetAuthCookie(adminUserInfo.AdminUserName,false);
+
                 Session["AdminUserName"] = adminUserInfo.AdminUserName;
+
                 return RedirectToAction("Index", "AdminCategory");
             }
             else
@@ -46,12 +53,18 @@ namespace MvcProjectCamp.Controllers
         [HttpPost]
         public ActionResult WriterLogin(Writer p)
         {
-            Context c = new Context();
-            var writerUserInfo = c.Writers.FirstOrDefault(x => x.WriterMail == p.WriterMail && x.WriterPassword == p.WriterPassword);
+            //Context c = new Context();
+
+            //var writerUserInfo = c.Writers.FirstOrDefault(x => x.WriterMail == p.WriterMail && x.WriterPassword == p.WriterPassword);
+
+            var writerUserInfo = _writerLoginManager.GetWriter(p.WriterMail, p.WriterPassword);
+
             if (writerUserInfo != null)
             {
                 FormsAuthentication.SetAuthCookie(writerUserInfo.WriterMail, false);
+
                 Session["WriterMail"] = writerUserInfo.WriterMail;
+
                 return RedirectToAction("MyContent", "WriterPanelContent");
             }
             else
@@ -64,7 +77,9 @@ namespace MvcProjectCamp.Controllers
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
+
             Session.Abandon();
+
             return RedirectToAction("Headings","Default");
         }
 
