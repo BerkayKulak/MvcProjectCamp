@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLayer.Concrete;
+using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 
@@ -12,14 +13,17 @@ namespace MvcProjectCamp.Controllers
     public class WriterPanelMessageController : Controller
     {
         private MessageManager mm = new MessageManager(new EfMessageDal());
+
         public ActionResult Inbox()
         {
-            var messageList = mm.GetListInbox();
+            string p = (string)Session["WriterMail"];
+            var messageList = mm.GetListInbox(p);
             return View(messageList);
         }
         public ActionResult Sendbox()
         {
-            var messageList = mm.GetListSendbox();
+            string p = (string)Session["WriterMail"];
+            var messageList = mm.GetListSendbox(p);
             return View(messageList);
         }
         public PartialViewResult MessageListMenu()
@@ -51,8 +55,9 @@ namespace MvcProjectCamp.Controllers
         [HttpPost]
         public ActionResult NewMessage(Message p)
         {
+            string sender = (string)Session["WriterMail"];
             p.MessageDate = DateTime.Parse(DateTime.Now.ToShortDateString());
-            p.SenderMail = "admin@gmail.com";
+            p.SenderMail = sender;
             mm.MessageAddBL(p);
             return RedirectToAction("Sendbox");
         }
