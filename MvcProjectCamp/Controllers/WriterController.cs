@@ -51,6 +51,7 @@ namespace MvcProjectCamp.Controllers
         public ActionResult EditWriter(int id)
         {
             var writerValue = wm.GetById(id);
+
             return View(writerValue);
         }
 
